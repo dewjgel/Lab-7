@@ -1,18 +1,17 @@
-class Product:
+from abc import ABC, abstractmethod
+
+class Product(ABC):
+
     def __init__(self, product_id, name, price, stock):
         self.product_id = product_id
         self.name = name
         self.price = float(price)
         self.stock = int(stock)
 
-    def product_id(self):
-        return self.product_id
-
-    def name(self):
-        return self.name
-
-    def stock(self):
-        return self.stock
+        if self.price < 0:
+            raise ValueError("Price cannot be negative.")
+        if self.stock < 0:
+            raise ValueError("Stock cannot be negative.")
 
     def update_stock(self, quantity):
         if not isinstance(quantity, int) or isinstance(quantity,bool):
@@ -28,4 +27,7 @@ class Product:
         print(f"Name: {self.name}")
         print(f"Price: ${self.price:.2f}")
         print(f"Stock: {self.stock}")
-        
+
+    @abstractmethod
+    def get_fufillment_method(self):
+        pass
