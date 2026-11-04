@@ -17,10 +17,18 @@
     },
     {
         "type": "DigitalProduct",
-        "id": "P003",
+        "id": "D001",
         "name": "Antivirus Software",
         "price": 45.0,
         "stock": 25,
+        "download_size": 500.0
+    },
+    {
+        "type": "DigitalProduct",
+        "id": "D002",
+        "name": "Digital Service",
+        "price": 100.0,
+        "stock": 5,
         "download_size": 500.0
     }
 ]
