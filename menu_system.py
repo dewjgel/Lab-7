@@ -1,48 +1,77 @@
 import json
+
 from product import Product
+from physical_product import PhysicalProduct
+from digital_product import DigitalProduct
+from can_be_shipped import CanBeShipped
 from inventory import Inventory
 
 FILE_NAME = "inventory.json" 
 
 DEFAULT_INVENTORY = [
     {
+        type: "PhysicalProduct",
         "id": "P001",
         "name": "Laptop",
         "price": 1200.00,
-        "stock": 15
+        "stock": 15,
+        "weight": 2.5
     },
     {
+        type: "PhysicalProduct",
         "id": "P002",
         "name": "Mouse",
         "price": 25.50,
-        "stock": 40
+        "stock": 40,
+        "weight": 0.2
     },
     {
+        "type": "DigitalProduct",
         "id": "P003",
-        "name": "Keyboard",
+        "name": "Antivirus Software",
         "price": 45.00,
-        "stock": 25
+        "stock": 25,
+        "download_size": 500
     }
 ]
+def create_product(item):
+
+    product_type = item["type"].lower
+
+    if product_type == "physicalproduct":
+        return PhysicalProduct(
+            item["id"],
+            item["name"],
+            item["price"],
+            item["stock"],
+            item["weight"]
+        )
+    elif product_type == "digitalproduct":
+        return DigitalProduct(
+            item["id"],
+            item["name"],
+            item["price"],
+            item["stock"],
+            item["download_size"]
+        )
+    else:
+        raise ValueError(f"Unknown product type: {item['type']}")
 
 def load_inventory():
 
     try: 
        with open(FILE_NAME, "r") as file:
         data = json.load(file)
+
+        if not isinstance(data, list):
+            raise ValueError("Inventory data should be a list of products.")
+
         inventory = Inventory()
 
         for item in data:
-            product = Product(
-                item["id"],
-                item["name"],
-                item["price"],
-                item["stock"]
-            )
-
-            if not inventory.add_product(product):
-                raise ValueError("Duplicate product ID in inventory")
-        
+            product = create_product(item)
+            inventory.add_product(product)
+ 
         print("Inventory loaded successfully.")
         return inventory
        
@@ -50,24 +79,19 @@ def load_inventory():
     except FileNotFoundError:
 
         print("inventory.json not found")
-        print("Starting with an empty inventory")
+        print("Creating default inventory.")
         return create_default_inventory()
     
-    except (json.JSONDecodeError, ValueError, TypeError, KeyError) as error:
+    except (json.JSONDecodeError, ValueError, TypeError, KeyError, OverflowError) as error:
         print("Error loading inventory:", error)
-        print("Starting with an empty inventory.")
+        print("Creating default inventory.")
         return create_default_inventory()
 
 def create_default_inventory():
     inventory = Inventory()
 
     for item in DEFAULT_INVENTORY:
-        product = Product(
-            item["id"],
-            item["name"],
-            item["price"],
-            item["stock"]
-        )
+        product = create_product(item)
         inventory.add_product(product)
 
     return inventory
@@ -76,12 +100,30 @@ def save_inventory(inventory):
     data = []
 
     for product in inventory.get_products():
-        data.append({
-            "id": product.product_id,
-            "name": product.name,
-            "price": product.price,
-            "stock": product.stock
-        })
+        if isinstance(product, PhysicalProduct):
+            item = {
+                "type": "PhysicalProduct",
+                "id": product.product_id,
+                "name": product.name,
+                "price": product.price,
+                "stock": product.stock,
+                "weight": product.weight
+            }
+
+        elif isinstance(product, DigitalProduct):
+            item = {
+                "type": "DigitalProduct",
+                "id": product.product_id,
+                "name": product.name,
+                "price": product.price,
+                "stock": product.stock,
+                "download_size": product.download_size
+        }
+        else:
+
+            raise TypeError("Unsupported product type.")
+
+        data.append(item)
 
     try:
         with open(FILE_NAME, "w") as file:
@@ -89,7 +131,7 @@ def save_inventory(inventory):
 
         print("Inventory saved successfully to inventory.json.")
 
-    except OSError as error:
+    except (OSError, TypeError, ValueError) as error:
         print("Error saving inventory:", error)
 
 def display_menu():
@@ -145,9 +187,43 @@ def add_product(inventory):
         except ValueError:
             print("Please enter a whole number.")
 
-    product = Product(product_id, name, price, stock)
+    print("\nSelect Product Type:")
+    print("1. Physical Product")
+    print("2. Digital Product")
 
-    inventory.add_product(product)
+    product_type = input("Enter option: ").strip()
+
+    try:
+        if product_type == "1":
+            weight = float(input("Weight (kg): "))
+
+            if weight < 0:
+                print("Weight cannot be negative.")
+                return
+            product = PhysicalProduct(product_id, name, price, stock, weight)
+
+        elif product_type == "2":
+            download_size = float(input("Enter Download Size (MB): "))
+
+            if download_size < 0:
+                print("Download size cannot be negative.")
+                return
+
+            product = DigitalProduct(product_id, name, price, stock, download_size)
+
+        else: 
+            print("Invalid product type.")
+            return
+
+        inventory.add_product(product)
+
+        print("Fulfilment:", product.get_fulfilment_info())
+        if isinstance(product, CanBeShipped):
+                print(f"Shipping Cost: ${product.calculate_shipping_cost():.2f}")
+                
+
+    except (ValueError, OverflowError) as error:
+        print("Invalid product information:", error)
 
 def update_product_stock(inventory):
     print("\nUpdate Stock")
@@ -167,15 +243,12 @@ def update_product_stock(inventory):
         try:
             new_stock = int(input("New Stock Quantity: "))
 
-            if new_stock < 0:
-                print("Stock cannot be negative.")
-            else:
-                product.update_stock(new_stock)
-                print("Stock updated successfully.")
-                return
+            product.update_stock(new_stock)
+            print("Stock updated successfully.")
+            return
 
-        except ValueError:
-            print("Please enter a valid whole number.")
+        except ValueError as error:
+            print("Invalid stock quantity:", error)
 
 def search_product(inventory):
     print("\nSearch Product")
@@ -189,6 +262,10 @@ def search_product(inventory):
         print("Product Found")
         print("--------------------------------------------")
         product.display_information()
+        print("Fulfilment:", product.get_fulfilment_info())
+        if isinstance(product, CanBeShipped):
+            print(f"Shipping Cost: ${product.calculate_shipping_cost():.2f}")
+
         print("--------------------------------------------")
 
 
@@ -200,10 +277,10 @@ def main():
     inventory = load_inventory()
 
     try:
-        with open(FILE_NAME, "r") as file:
-            json.load(file)
+        with open(FILE_NAME, "r"):
+            pass
 
-    except (FileNotFoundError, json.JSONDecodeError):
+    except (FileNotFoundError)
         save_inventory(inventory)
 
     while True:
