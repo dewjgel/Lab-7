@@ -1,6 +1,6 @@
 [
     {
-        "type": "PhysicalProduct",
+        "type": "physical",
         "id": "P001",
         "name": "Laptop",
         "price": 1200.0,
@@ -8,7 +8,7 @@
         "weight": 2.5
     },
     {
-        "type": "PhysicalProduct",
+        "type": "physical",
         "id": "P002",
         "name": "Mouse",
         "price": 25.5,
@@ -16,7 +16,7 @@
         "weight": 0.2
     },
     {
-        "type": "DigitalProduct",
+        "type": "digital",
         "id": "D001",
         "name": "Antivirus Software",
         "price": 45.0,
@@ -24,7 +24,7 @@
         "download_size": 500.0
     },
     {
-        "type": "DigitalProduct",
+        "type": "digital",
         "id": "D002",
         "name": "Digital Service",
         "price": 100.0,

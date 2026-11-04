@@ -27,7 +27,7 @@ DEFAULT_INVENTORY = [
     },
     {
         "type": "digital",
-        "id": "P003",
+        "id": "D001",
         "name": "Antivirus Software",
         "price": 45.00,
         "stock": 25,
@@ -102,7 +102,7 @@ def save_inventory(inventory):
     for product in inventory.get_products():
         if isinstance(product, PhysicalProduct):
             item = {
-                "type": "PhysicalProduct",
+                "type": "physical",
                 "id": product.product_id,
                 "name": product.name,
                 "price": product.price,
@@ -112,7 +112,7 @@ def save_inventory(inventory):
 
         elif isinstance(product, DigitalProduct):
             item = {
-                "type": "DigitalProduct",
+                "type": "digital",
                 "id": product.product_id,
                 "name": product.name,
                 "price": product.price,
