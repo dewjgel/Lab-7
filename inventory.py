@@ -32,6 +32,7 @@ class Inventory:
         else:
              for product in self.products:
                 product.display_information()
+                print("Fufillment:", product.get_fufillment_method())
 
         print("-----------------------------------------------")
 
