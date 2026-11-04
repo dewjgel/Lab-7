@@ -10,7 +10,7 @@ FILE_NAME = "inventory.json"
 
 DEFAULT_INVENTORY = [
     {
-        type: "PhysicalProduct",
+        "type": "physical",
         "id": "P001",
         "name": "Laptop",
         "price": 1200.00,
@@ -18,7 +18,7 @@ DEFAULT_INVENTORY = [
         "weight": 2.5
     },
     {
-        type: "PhysicalProduct",
+        "type": "physical",
         "id": "P002",
         "name": "Mouse",
         "price": 25.50,
@@ -26,7 +26,7 @@ DEFAULT_INVENTORY = [
         "weight": 0.2
     },
     {
-        "type": "DigitalProduct",
+        "type": "digital",
         "id": "P003",
         "name": "Antivirus Software",
         "price": 45.00,
@@ -36,9 +36,9 @@ DEFAULT_INVENTORY = [
 ]
 def create_product(item):
 
-    product_type = item["type"].lower
+    product_type = item["type"].lower()
 
-    if product_type == "physicalproduct":
+    if product_type == "physical":
         return PhysicalProduct(
             item["id"],
             item["name"],
@@ -46,7 +46,7 @@ def create_product(item):
             item["stock"],
             item["weight"]
         )
-    elif product_type == "digitalproduct":
+    elif product_type == "digital":
         return DigitalProduct(
             item["id"],
             item["name"],
@@ -55,7 +55,7 @@ def create_product(item):
             item["download_size"]
         )
     else:
-        raise ValueError(f"Unknown product type: {item['type']}")
+        raise ValueError("Unknown product type.")
 
 def load_inventory():
 
@@ -217,7 +217,7 @@ def add_product(inventory):
 
         inventory.add_product(product)
 
-        print("Fulfilment:", product.get_fulfilment_info())
+        print("Fulfilment:", product.get_fufillment_method())
         if isinstance(product, CanBeShipped):
                 print(f"Shipping Cost: ${product.calculate_shipping_cost():.2f}")
                 
@@ -262,7 +262,7 @@ def search_product(inventory):
         print("Product Found")
         print("--------------------------------------------")
         product.display_information()
-        print("Fulfilment:", product.get_fulfilment_info())
+        print("Fulfilment:", product.get_fufillment_method())
         if isinstance(product, CanBeShipped):
             print(f"Shipping Cost: ${product.calculate_shipping_cost():.2f}")
 
@@ -280,7 +280,7 @@ def main():
         with open(FILE_NAME, "r"):
             pass
 
-    except (FileNotFoundError)
+    except (FileNotFoundError):
         save_inventory(inventory)
 
     while True:

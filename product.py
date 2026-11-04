@@ -27,6 +27,7 @@ class Product(ABC):
         print(f"Name: {self.name}")
         print(f"Price: ${self.price:.2f}")
         print(f"Stock: {self.stock}")
+        print()
 
     @abstractmethod
     def get_fufillment_method(self):
