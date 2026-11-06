@@ -1,0 +1,71 @@
+
+@startuml name UML_diagram
+skinparam classAttributeIconSize 0
+skinparam style strictuml
+
+title Inventory Management System - Class Diagram
+
+' =========================
+' Abstract Classes
+' =========================
+
+abstract class Product {
+    - product_id : str
+    - name : str
+    - price : float
+    - stock : int
+
+    + __init__(product_id, name, price, stock)
+    + update_stock(quantity) : void
+    + display_information() : void
+    {abstract} + get_fufillment_method() : str
+}
+
+interface CanBeShipped {
+    {abstract} + get_shipping_cost() : float
+}
+
+' =========================
+' Concrete Classes
+' =========================
+
+class PhysicalProduct {
+    - weight : float
+
+    + __init__(product_id, name, price, stock, weight)
+    + display_information() : void
+    + get_fufillment_method() : str
+    + calculate_shipping_cost() : float
+}
+
+class DigitalProduct {
+    - download_size : float
+
+    + __init__(product_id, name, price, stock, download_size)
+    + display_information() : void
+    + get_fufillment_method() : str
+}
+
+class Inventory {
+    - products : list
+
+    + __init__()
+    + add_product(product) : bool
+    + search_product(product_id) : Product
+    + display_inventory() : void
+    + get_products() : list
+}
+
+' =========================
+' Relationships
+' =========================
+
+Product <|-- PhysicalProduct
+Product <|-- DigitalProduct
+
+CanBeShipped <|.. PhysicalProduct : register()
+
+Inventory "1" o-- "0..*" Product : contains
+
+@enduml
+
