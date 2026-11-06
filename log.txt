@@ -1,0 +1,83 @@
+commit dfe0ccc1270b5c9146ba3f5cb81ab490c4375844
+Author: 2603195 <2603195@sit.singaporetech.edu.sg>
+Date:   Fri Nov 6 14:20:19 2026 +0800
+
+    uml plant diagram
+
+commit c5ba8b1eb0a1b9c3c33e3589f7ad40d33cbb61bc
+Author: 2603195 <2603195@sit.singaporetech.edu.sg>
+Date:   Thu Nov 5 03:05:35 2026 +0800
+
+    rechecked the code again and did a successful attempt at the save load inventory function
+
+commit 6608331271acfe038abe1a4ce41e8dddeb6280dc
+Author: 2603195 <2603195@sit.singaporetech.edu.sg>
+Date:   Thu Nov 5 02:52:19 2026 +0800
+
+    tested the code with saving a new item to test the saving loading feature
+
+commit dd52ccdda2806897469898b8b2d4e318b3b65ff6
+Author: 2603195 <2603195@sit.singaporetech.edu.sg>
+Date:   Thu Nov 5 02:48:45 2026 +0800
+
+    finished the menu_system.py code and tested out the saving loading feature
+
+commit c2a67cf10cf5008769f154d43a49ee72294c2028
+Author: 2603195 <2603195@sit.singaporetech.edu.sg>
+Date:   Thu Nov 5 02:26:18 2026 +0800
+
+    updated menu_system according the classes changes
+
+commit bd8bda974da7f4d61b141e2afa31e4125fd658d0
+Author: 2603195 <2603195@sit.singaporetech.edu.sg>
+Date:   Thu Nov 5 01:48:38 2026 +0800
+
+    adjusted inventory class to fit the physical and digital product class changes
+
+commit 75aba9919d733f8b6a547904e5abf81cb510cc85
+Author: 2603195 <2603195@sit.singaporetech.edu.sg>
+Date:   Thu Nov 5 01:43:26 2026 +0800
+
+    added digital product class
+
+commit db615fff66ed962b0a575462ed76adc9ae74e2c4
+Author: 2603195 <2603195@sit.singaporetech.edu.sg>
+Date:   Thu Nov 5 01:41:15 2026 +0800
+
+    added digital product.py
+
+commit 79bcb5e9f4626754b53815e522f2af98b85f3895
+Author: 2603195 <2603195@sit.singaporetech.edu.sg>
+Date:   Thu Nov 5 01:40:42 2026 +0800
+
+    added physical product class
+
+commit 4d9a5e67224a0878022649b1f37d774761c96a6d
+Author: 2603195 <2603195@sit.singaporetech.edu.sg>
+Date:   Thu Nov 5 01:33:29 2026 +0800
+
+    added physical_product.py
+
+commit 177c52fa0234670faeee7a7761ebd6382eb12ef1
+Author: 2603195 <2603195@sit.singaporetech.edu.sg>
+Date:   Thu Nov 5 01:32:25 2026 +0800
+
+    added can be shipped class
+
+commit 76f4538f71e3d00630fbf2f66b3ee17ca4f5749f
+Author: 2603195 <2603195@sit.singaporetech.edu.sg>
+Date:   Thu Nov 5 01:31:11 2026 +0800
+
+    created can be shipped.py
+
+commit 31c551fc5486aed1498015f44eb474a3a3c8f123
+Author: 2603195 <2603195@sit.singaporetech.edu.sg>
+Date:   Thu Nov 5 01:30:27 2026 +0800
+
+    adjusted product class with abc and abstract method
+
+commit f69a1ab751142fcc4db511afc29f3f42253af643
+Author: 2603195 <2603195@sit.singaporetech.edu.sg>
+Date:   Thu Nov 5 01:15:25 2026 +0800
+
+    Copied Week 6 filese
